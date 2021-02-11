@@ -6,6 +6,9 @@ import { search } from "../utils/BooksAPI";
 import Book from "./Book";
 
 class SearchPage extends Component {
+  /* Since I got error messages that suggested 'this' was undefined I added a
+  constructor. I am pretty sure that I shouldn't have done that but could not
+  think of another solution in the short term. */
   constructor(props) {
     super(props);
 
@@ -21,6 +24,7 @@ class SearchPage extends Component {
     const currentQuery = this.state.query;
     const shouldQueryBooks = query !== currentQuery && currentQuery;
 
+    /* Only fetch new query when query has changed and a query exists at all. */
     if (shouldQueryBooks) {
       search(currentQuery).then(queriedBooks => {
         this.setState(() => ({ queriedBooks }));
@@ -28,6 +32,9 @@ class SearchPage extends Component {
     }
   }
 
+  /* Since the API doesn't return a shelf property on the book object with the
+  search endpoint, we have to map againgst book ids currently listed on our
+  shelves. This may not be the best approach though... */
   getCorrectShelf(bookId) {
     let savedBookIds = [];
     this.props.books.forEach(b => savedBookIds.push(b.id));

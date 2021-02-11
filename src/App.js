@@ -8,6 +8,9 @@ import SearchPage from "./components/SearchPage";
 import BooksPage from "./components/BooksPage";
 
 class BooksApp extends Component {
+  /* Since I got error messages that suggested 'this' was undefined I added a
+  constructor. I am pretty sure that I shouldn't have done that but could not
+  think of another solution in the short term. */
   constructor(props) {
     super(props);
 
@@ -23,11 +26,14 @@ class BooksApp extends Component {
     this.getBooks();
   }
 
+  /* Isolated this function because it is used more than once */
   getBooks() {
     BooksAPI.getAll().then(books => this.setState(() => ({ books })));
   }
 
   updateShelf(bookId, shelf) {
+    /* To see the actual changes in categories appear on the page, one has to
+    fetch all the books again. */
     BooksAPI.update(bookId, shelf).then(() => this.getBooks());
   }
 
