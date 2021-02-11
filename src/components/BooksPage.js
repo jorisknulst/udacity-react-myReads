@@ -4,15 +4,27 @@ import BooksPageTitle from "./BooksPageTitle";
 import BookShelf from "./BookShelf";
 import AddBooks from "./AddBooks";
 
-function BooksPage() {
+const currentlyReading = "currentlyReading";
+const wantToRead = "wantToRead";
+const read = "read";
+
+function BooksPage(props) {
+  const { books } = props;
+
   return (
     <div className="books-page">
       <div className="list-books">
         <BooksPageTitle title="Joris's reading list" />
         <div className="list-books-content">
-          <BookShelf shelf="Currently reading" books={[]} />
-          <BookShelf shelf="Want to read" books={[]} />
-          <BookShelf shelf="Read" books={[]} />
+          <BookShelf
+            shelf="Currently reading"
+            books={books.filter(b => b.shelf === currentlyReading)}
+          />
+          <BookShelf
+            shelf="Want to read"
+            books={books.filter(b => b.shelf === wantToRead)}
+          />
+          <BookShelf shelf="Read" books={books.filter(b => b.shelf === read)} />
         </div>
         <AddBooks />
       </div>
