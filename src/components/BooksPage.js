@@ -9,7 +9,7 @@ const wantToRead = "wantToRead";
 const read = "read";
 
 function BooksPage(props) {
-  const { books } = props;
+  const { books, updateShelf } = props;
 
   return (
     <div className="books-page">
@@ -19,12 +19,18 @@ function BooksPage(props) {
           <BookShelf
             shelf="Currently reading"
             books={books.filter(b => b.shelf === currentlyReading)}
+            updateShelf={updateShelf}
           />
           <BookShelf
             shelf="Want to read"
             books={books.filter(b => b.shelf === wantToRead)}
+            updateShelf={updateShelf}
           />
-          <BookShelf shelf="Read" books={books.filter(b => b.shelf === read)} />
+          <BookShelf
+            shelf="Read"
+            books={books.filter(b => b.shelf === read)}
+            updateShelf={updateShelf}
+          />
         </div>
         <AddBooks />
       </div>

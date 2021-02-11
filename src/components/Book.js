@@ -1,10 +1,12 @@
 import React from "react";
 
-function Book(props) {
+const Book = props => {
   const {
-    book: { title, authors, imageLinks }
+    updateShelf,
+    book: { title, authors, imageLinks, shelf, id }
   } = props;
-
+  const multipleAuthors = Array.isArray(authors);
+  console.log(shelf);
   return (
     <li>
       <div className="book">
@@ -18,7 +20,10 @@ function Book(props) {
             }}
           />
           <div className="book-shelf-changer">
-            <select>
+            <select
+              value={shelf ? shelf : "none"}
+              onChange={({ target }) => updateShelf(id, target.value)}
+            >
               <option value="move" disabled>
                 Move to...
               </option>
@@ -30,10 +35,12 @@ function Book(props) {
           </div>
         </div>
         <div className="book-title">{title}</div>
-        <div className="book-authors">{authors.join(", ")}</div>
+        <div className="book-authors">
+          {multipleAuthors ? authors.join(", ") : authors}
+        </div>
       </div>
     </li>
   );
-}
+};
 
 export default Book;
