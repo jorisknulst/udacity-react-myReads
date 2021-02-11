@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function AddBooks() {
   return (
     <div className="open-search">
-      <button>Add a book</button>
+      <Link to="/search">Add a book</Link>
     </div>
   );
 }
