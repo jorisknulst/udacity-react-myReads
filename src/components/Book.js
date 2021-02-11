@@ -4,9 +4,10 @@ import PropTypes from "prop-types";
 const Book = props => {
   const {
     updateShelf,
-    book: { title, authors, imageLinks, shelf, id }
+    shelf,
+    book: { title, authors, imageLinks, id }
   } = props;
-  const multipleAuthors = Array.isArray(authors);
+  const backgroundImage = imageLinks ? `url(${imageLinks.thumbnail})` : "none";
 
   return (
     <li>
@@ -17,7 +18,7 @@ const Book = props => {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: `url(${imageLinks.thumbnail})`
+              backgroundImage: backgroundImage
             }}
           />
           <div className="book-shelf-changer">
@@ -37,7 +38,7 @@ const Book = props => {
         </div>
         <div className="book-title">{title}</div>
         <div className="book-authors">
-          {multipleAuthors ? authors.join(", ") : authors}
+          {authors ? authors.join(", ") : "Unknown author"}
         </div>
       </div>
     </li>
@@ -45,7 +46,16 @@ const Book = props => {
 };
 
 Book.propTypes = {
-  book: PropTypes.object.isRequired,
+  book: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    authors: PropTypes.array,
+    imageLinks: PropTypes.shape({
+      thumbnail: PropTypes.string,
+      smallThumbnail: PropTypes.string
+    }),
+    id: PropTypes.string.isRequired
+  }),
+  shelf: PropTypes.string.isRequired,
   updateShelf: PropTypes.func.isRequired
 };
 

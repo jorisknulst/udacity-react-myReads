@@ -11,8 +11,10 @@ class SearchPage extends Component {
 
     this.state = {
       query: "",
-      books: []
+      queriedBooks: []
     };
+
+    this.getCorrectShelf = this.getCorrectShelf.bind(this);
   }
 
   componentDidUpdate(prevProps, { query }) {
@@ -20,15 +22,26 @@ class SearchPage extends Component {
     const shouldQueryBooks = query !== currentQuery && currentQuery;
 
     if (shouldQueryBooks) {
-      search(currentQuery).then(books => {
-        this.setState(() => ({ books }));
+      search(currentQuery).then(queriedBooks => {
+        this.setState(() => ({ queriedBooks }));
       });
     }
   }
 
+  getCorrectShelf(bookId) {
+    let savedBookIds = [];
+    this.props.books.forEach(b => savedBookIds.push(b.id));
+
+    if (savedBookIds.includes(bookId)) {
+      return this.props.books.find(({ id }) => {
+        return id === bookId;
+      }).shelf;
+    }
+  }
+
   render() {
-    const { books, query } = this.state;
-    const booksFound = books && books.length;
+    const { queriedBooks, query } = this.state;
+    const booksFound = queriedBooks && queriedBooks.length;
 
     return (
       <div className="search-books">
@@ -48,16 +61,17 @@ class SearchPage extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {booksFound || !query
-              ? books.map(book => {
+              ? queriedBooks.map(book => {
                   return (
                     <Book
                       key={book.id}
                       book={book}
+                      shelf={this.getCorrectShelf(book.id)}
                       updateShelf={this.props.updateShelf}
                     />
                   );
                 })
-              : "No books found. Change your search"}
+              : "No books found. Change your search."}
           </ol>
         </div>
       </div>
@@ -66,7 +80,8 @@ class SearchPage extends Component {
 }
 
 SearchPage.propTypes = {
-  updateShelf: PropTypes.func.isRequired
+  updateShelf: PropTypes.func.isRequired,
+  books: PropTypes.array.isRequired
 };
 
 export default SearchPage;
