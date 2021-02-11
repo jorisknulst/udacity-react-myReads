@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 
 import * as BooksAPI from "./utils/BooksAPI";
@@ -18,12 +19,12 @@ class BooksApp extends Component {
     this.updateShelf = this.updateShelf.bind(this);
   }
 
-  getBooks() {
-    BooksAPI.getAll().then(books => this.setState(() => ({ books })));
-  }
-
   componentDidMount() {
     this.getBooks();
+  }
+
+  getBooks() {
+    BooksAPI.getAll().then(books => this.setState(() => ({ books })));
   }
 
   updateShelf(bookId, shelf) {
@@ -51,5 +52,7 @@ class BooksApp extends Component {
     );
   }
 }
+
+// BooksApp.propTypes = {};
 
 export default BooksApp;

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { search } from "../utils/BooksAPI";
 
@@ -63,5 +64,9 @@ class SearchPage extends Component {
     );
   }
 }
+
+SearchPage.propTypes = {
+  updateShelf: PropTypes.func.isRequired
+};
 
 export default SearchPage;
